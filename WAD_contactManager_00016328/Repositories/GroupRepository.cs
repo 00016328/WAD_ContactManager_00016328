@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WAD_contactManager_00016328.Data;
 using WAD_contactManager_00016328.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WAD_contactManager_00016328.Repositories
 {
-    public class GroupRepository : IGroupRepository
+    public class GroupRepository : IRepository<Group>
     {
         private readonly ApplicationDbContext _context;
 
@@ -13,25 +15,15 @@ namespace WAD_contactManager_00016328.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Group>> GetAllAsync()
+        public async Task CreateAsync(Group entity)
         {
-            return await _context.Groups.ToListAsync();
-        }
-
-        public async Task<Group> GetByIdAsync(int id)
-        {
-            return await _context.Groups.FirstOrDefaultAsync(g => g.Id == id);
-        }
-
-        public async Task AddAsync(Group group)
-        {
-            _context.Groups.Add(group);
+            await _context.Groups.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Group group)
+        public async Task UpdateAsync(Group entity)
         {
-            _context.Groups.Update(group);
+            _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 
@@ -43,6 +35,20 @@ namespace WAD_contactManager_00016328.Repositories
                 _context.Groups.Remove(group);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<IEnumerable<Group>> GetAllAsync()
+        {
+            return await _context.Groups
+                .Include(g => g.Contacts)
+                .ToListAsync();
+        }
+
+        public async Task<Group> GetByIdAsync(int id)
+        {
+            return await _context.Groups
+                .Include(g => g.Contacts)
+                .FirstOrDefaultAsync(g => g.Id == id);
         }
     }
 }

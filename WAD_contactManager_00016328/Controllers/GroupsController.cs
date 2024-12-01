@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using WAD_contactManager_00016328.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
 using WAD_contactManager_00016328.Models;
+using WAD_contactManager_00016328.Repositories;
 
 namespace WAD_contactManager_00016328.Controllers
 {
@@ -9,56 +8,51 @@ namespace WAD_contactManager_00016328.Controllers
     [ApiController]
     public class GroupsController : ControllerBase
     {
-        private readonly IGroupRepository _groupRepository;
+        private readonly IRepository<Group> _repository;
 
-        public GroupsController(IGroupRepository groupRepository)
+        public GroupsController(IRepository<Group> repository)
         {
-            _groupRepository = groupRepository;
+            _repository = repository;
         }
 
-        // GET: api/groups
         [HttpGet]
-        public async Task<IActionResult> GetAllGroups()
+        public async Task<IEnumerable<Group>> GetAllItems()
         {
-            var groups = await _groupRepository.GetAllAsync();
-            return Ok(groups);
+            return await _repository.GetAllAsync();
         }
 
-        // GET: api/groups/{id}
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetGroupById(int id)
+        public async Task<ActionResult> GetByID(int id)
         {
-            var group = await _groupRepository.GetByIdAsync(id);
-            if (group == null)
-                return NotFound();
-
-            return Ok(group);
+            var group = await _repository.GetByIdAsync(id);
+            return group == null ? NotFound() : Ok(group);
         }
 
-        // POST: api/groups
-        [HttpPost]
-        public async Task<IActionResult> CreateGroup(Group group)
-        {
-            await _groupRepository.AddAsync(group);
-            return CreatedAtAction(nameof(GetGroupById), new { id = group.Id }, group);
-        }
-
-        // PUT: api/groups/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateGroup(int id, Group group)
+        public async Task<IActionResult> Update(int id, Group group)
         {
-            if (id != group.Id)
+            if (group.Id == id)
+            {
+                await _repository.UpdateAsync(group);
+                return NoContent();
+            }
+            else
+            {
                 return BadRequest();
-
-            await _groupRepository.UpdateAsync(group);
-            return NoContent();
+            }
         }
 
-        // DELETE: api/groups/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteGroup(int id)
+        [HttpPost]
+        public async Task<ActionResult> Create(Group group)
         {
-            await _groupRepository.DeleteAsync(id);
+            await _repository.CreateAsync(group);
+            return CreatedAtAction(nameof(GetByID), new { id = group.Id }, group);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _repository.DeleteAsync(id);
             return NoContent();
         }
     }

@@ -2,9 +2,9 @@
 
 #nullable disable
 
-namespace WAD_contactManager_00016328.Data.Migrations
+namespace WAD_contactManager_00016328.Migrations
 {
-    public partial class Initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
