@@ -1,12 +1,11 @@
 export interface Contact {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    groupID: number;
-    group: {
-        id: number;
-        name: string;
-    };
-  }
-  
+    Id: number;
+    Name: string;
+    Email: string;
+    Phone: string;
+    //  group
+    Group: {
+        GroupId: number;
+        GroupName: string;
+    }
+}

@@ -15,7 +15,7 @@ namespace WAD_contactManager_00016328.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IEnumerable<Group>> GetAllItems()
         {
             return await _repository.GetAllAsync();

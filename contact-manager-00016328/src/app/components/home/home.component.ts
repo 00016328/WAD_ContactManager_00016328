@@ -23,13 +23,12 @@ export class HomeComponent {
       this.contacts = result;
     });
   }
-
   displayedColumns: string[] = ['ID', 'Name', 'Email', 'Phone', 'Group', 'Actions'];
 
-  // onCreate() {
-  //   console.log("Create clicked");
-  //   this.router.navigateByUrl("/create");
-  // }
+  onCreate() {
+    console.log("Create clicked");
+    this.router.navigateByUrl("/create");
+  }
   onEdit(id: number) {
     console.log("Edit: ", id);
     this.router.navigateByUrl("/edit/" + id);

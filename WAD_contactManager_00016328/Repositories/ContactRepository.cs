@@ -17,7 +17,7 @@ namespace WAD_contactManager_00016328.Repositories
 
         public async Task CreateAsync(Contact entity)
         {
-            await _context.Contacts.AddAsync(entity);
+            _context.Contacts.Add(entity);
             await _context.SaveChangesAsync();
         }
 
@@ -29,26 +29,22 @@ namespace WAD_contactManager_00016328.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var contact = await _context.Contacts.FindAsync(id);
-            if (contact != null)
+            var removeItem = await _context.Contacts.FindAsync(id);
+            if (removeItem != null)
             {
-                _context.Contacts.Remove(contact);
+                _context.Contacts.Remove(removeItem);
                 await _context.SaveChangesAsync();
             }
         }
 
         public async Task<IEnumerable<Contact>> GetAllAsync()
         {
-            return await _context.Contacts
-                .Include(c => c.Group)
-                .ToListAsync();
+            return await _context.Contacts.ToListAsync();
         }
 
         public async Task<Contact> GetByIdAsync(int id)
         {
-            return await _context.Contacts
-                .Include(c => c.Group)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            return await _context.Contacts.FindAsync(id);
         }
     }
 }

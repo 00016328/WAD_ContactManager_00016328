@@ -24,7 +24,7 @@ namespace WAD_contactManager_00016328.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             var contacts = await _contactRepository.GetAllAsync();
@@ -48,12 +48,6 @@ namespace WAD_contactManager_00016328.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ContactDto contactDto)
         {
-            var group = await _groupRepository.GetByIdAsync(contactDto.GroupId);
-            if (group == null)
-            {
-                return BadRequest("Invalid GroupId.");
-            }
-
             var contact = _mapper.Map<Contact>(contactDto);
             await _contactRepository.CreateAsync(contact);
 
