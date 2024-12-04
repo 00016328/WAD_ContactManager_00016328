@@ -1,7 +1,36 @@
 <div class="p-8 mt-8 flex justify-center">
     <form class="shadow border w-4/12 p-4">
-        <mat-form-field class="w-full">
-            
-        </mat-form-field>
+        <div class="flex">
+            <mat-form-field class="w-full">
+                <mat-label>Name</mat-label>
+                <input matInput name="name" type="text" [(ngModel)]="editContact.Name">
+            </mat-form-field>
+        </div>
+        <div class="flex">
+            <mat-form-field class="w-full">
+                <mat-label>Email</mat-label>
+                <input matInput name="email" type="email" [(ngModel)]="editContact.Email">
+            </mat-form-field>
+        </div>
+        <div class="flex">
+            <mat-form-field class="w-full">
+                <mat-label>Phone</mat-label>
+                <input matInput name="phone" type="text" [(ngModel)]="editContact.Phone">
+            </mat-form-field>
+        </div>
+        <div class="flex">
+            <mat-form-field class="w-full">
+                <mat-label>Choose Group</mat-label>
+                <mat-select [(ngModel)]="gId" name="group">
+                    @for(c of groupObject; track c){
+                    <mat-option [value]="c.id">{{c.name}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="flex justify-center">
+            <button mat-raised-button (click)="toHome()">Cancel</button>
+            <button mat-raised-button color="primary" (click)="edit()">Edit</button>
+        </div>
     </form>
 </div>
