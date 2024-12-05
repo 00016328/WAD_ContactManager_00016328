@@ -1,1 +1,2 @@
 # WAD_contactManager_00016328
+This application was developed for the Web Application module, as a coursework portfolio project @ WIUT by student ID: 00016328. The project represents a single-page application (SPA) for Contact Manager which handles CRUD operations using Angular Framework. Specifically, it manages contacts by creating, reading, updating, and deleting the contact data within the SPA.
