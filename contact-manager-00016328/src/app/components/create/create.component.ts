@@ -41,6 +41,10 @@ export class CreateComponent {
     });
   }
 
+  toHome() {
+    this.router.navigateByUrl("home")
+  }
+
   create() {
     this.newContact.GroupId = this.gId;
 
